@@ -1,5 +1,2 @@
-= OpenShift Primer Workshop Repo
+= OpenShift Virt Workshop 
 
-https://workshop.k8socp.com[Workshop Link]
-
-https://raw.githubusercontent.com/shpwrck/openshift-primer/refs/heads/main/build/assembler/modules/openshift-primer.pdf[PDF Download]

@@ -26,7 +26,7 @@ Descheduler
 |Multus{nbsp}+ +
 OVN-Kubernetes{nbsp}+ +
 Third-party container network interface (CNI) plug-ins
-|Provides an overlay network configuration. There is no direct equivalent for NSX in {VirtProductName}, but you can use the OVN-Kubernetes network provider or install certified third-party CNI plug-ins.
+|Provides an overlay network configuration. There is no direct equivalent for NSX in Openshift Virt, but you can use the OVN-Kubernetes network provider or install certified third-party CNI plug-ins.
 
 |Storage Policy Based Management (SPBM)
 |Storage class
