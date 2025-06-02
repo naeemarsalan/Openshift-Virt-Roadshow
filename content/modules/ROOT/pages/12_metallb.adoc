@@ -26,7 +26,7 @@ In layer 2 mode, all traffic for a service IP address is routed through one node
 
 When a node becomes unavailable, failover is automatic. The speaker pods on the other nodes detect that a node is unavailable, and a new speaker pod on a surviving node will take ownership of the service IP address from the failed node.
 
-image::images/MetalLB/00_layer2.png[]
+image::MetalLB/00_layer2.png[]
 
 === Layer 3 (BGP) mode
 
@@ -34,22 +34,22 @@ In BGP mode, by default, each speaker pod advertises the load balancer IP addres
 
 If a node becomes unavailable, the router then initiates a new connection with another node that has a speaker pod that is advertising the load balancer IP address.
 
-image::images/MetalLB/00_bgp.png[]
+image::MetalLB/00_bgp.png[]
 
 ////
 == Review Operator
 
 . Navigate to *Operators* -> *Installed Operators*. Select *All Projects* and select *MetalLB*
 +
-image::images/MetalLB/01_Operator_Installed.png[]
+image::MetalLB/01_Operator_Installed.png[]
 
 . Review the *Provided APIs* on the Details tab
 +
-image::images/MetalLB/02_Review_Operator.png[]
+image::MetalLB/02_Review_Operator.png[]
 
 . Select the tab *MetalLB* to ensure the deployment is installed and configured correctly
 +
-image::images/MetalLB/03_Review_Operator_MetalLB.png[]
+image::MetalLB/03_Review_Operator_MetalLB.png[]
 ////
 
 == Define IP AddressPool
@@ -58,15 +58,15 @@ For this lab, we will use the same network where the OpenShift Cluster nodes are
 
 . In the left navigation menu, browse to *Operators -> Installed Operators*, switch to project `metallb-system`. Then choose the MetalLB Operator
 +
-image::images/MetalLB/40_navigation.png[]
+image::MetalLB/40_navigation.png[]
 
 . Switch the tab *IPAddressPool* (you may need to scroll the tabs to the right to see it) and press *Create IPAddressPool*
 +
-image::images/MetalLB/21_navigation.png[]
+image::MetalLB/21_navigation.png[]
 
 . Use the name `ip-addresspool-webapp` and under section _addresses_, remove any existing addresses and enter `192.168.123.200-192.168.123.250` as the address pool. When complete it should look similar to this image:
 +
-image::images/MetalLB/09_MetalLB_IPAddressPool_Defined.png[]
+image::MetalLB/09_MetalLB_IPAddressPool_Defined.png[]
 
 . Scroll down and press *Create*.
 
@@ -76,11 +76,11 @@ For this lab we will use MetalLB in layer2 mode, so we need to create the config
 
 . Switch to the *L2Advertisement* tab (you may need to scroll the tab list to the right to see it) and press *Create L2Advertisement*.
 +
-image::images/MetalLB/22_navigation.png[]
+image::MetalLB/22_navigation.png[]
 
 . Indicate the name `l2-adv-webapp` and under section _ipaddressPools_ specify the value `ip-addresspool-webapp` as is shown:
 +
-image::images/MetalLB/10_MetalLB_L2Advertisement.png[]
+image::MetalLB/10_MetalLB_L2Advertisement.png[]
 
 . Press *Create*
 
@@ -90,7 +90,7 @@ If you completed the *Exposing apps using a Route* module, the VM is currently a
 
 . Navigate to *Networking* -> *Services* and select the project `vmexamples`
 +
-image::images/MetalLB/11_Services.png[]
+image::MetalLB/11_Services.png[]
 +
 [IMPORTANT]
 ====
@@ -123,15 +123,15 @@ Notice the `type` indicated is `LoadBalancer`. Since this cluster has MetalLB in
 
 . Press *Create* and review the *Service* created. Notice the IP address assigned to the load balancer is from the range specified earlier in the lab.
 +
-image::images/MetalLB/12_Service_created.png[]
+image::MetalLB/12_Service_created.png[]
 
 . To verify connectivity to the database service via the external IP, open the web terminal by clicking the following icon in the right-top part.
 +
-image::images/OCP_Terminal_Icon.png[]
+image::OCP_Terminal_Icon.png[]
 
 . A console in the bottom part of the screen appears
 +
-image::images/OCP_Terminal.png[]
+image::OCP_Terminal.png[]
 
 . Using the right console, try to access the IP assigned and the port 3306
 +

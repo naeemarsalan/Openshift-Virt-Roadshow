@@ -27,22 +27,22 @@ The `fedora` user is the default user configured by the https://fedoraproject.or
 
 . In the left menu, go back to *Virtualization* -> *VirtualMachines*:
 +
-image::images/Create_VM_URL/00_VMs.png[]
+image::Create_VM_URL/00_VMs.png[]
 +
 [NOTE]
 If you do not see the VMs created on the previous page, double-check to make sure you're looking at the `vmexamples` project in the upper left corner of the panel.
 
 . In the top right dropdown, select *Create* -> *From template*:
 +
-image::images/Create_VM_URL/00_Create.png[]
+image::Create_VM_URL/00_Create.png[]
 
 . From the pre-defined templates, select the *Fedora VM* tile:
 +
-image::images/Create_VM_URL/00_Catalog.png[]
+image::Create_VM_URL/00_Catalog.png[]
 
 . In the dialog that opens, click *Customize VirtualMachine*. 
 +
-image::images/Create_VM_URL/00_Fedora.png[]
+image::Create_VM_URL/00_Fedora.png[]
 
 . Customize Virtual Machine
 +
@@ -55,19 +55,19 @@ Even though this template has a disk already available, we want to import a diff
 ... *Disk size*: 30 GiB
 
 +
-image::images/Create_VM_URL/01_Create_VM_Boot_Source.png[]
+image::Create_VM_URL/01_Create_VM_Boot_Source.png[]
 +
 Press *Next*
 
 . Review the *Overview* tab with the default configuration from the template
 +
-image::images/Create_VM_URL/02_Wizard_General.png[]
+image::Create_VM_URL/02_Wizard_General.png[]
 
 . Click the link under *CPU | Memory* to adjust the resource allocation for the virtual machine. Change the number of CPUs to 2 and the memory to 4 GiB.
 
 . Navigate to the *Scheduling* tab and review the options available without modifying them
 +
-image::images/Create_VM_URL/02_Wizard_Scheduling.png[]
+image::Create_VM_URL/02_Wizard_Scheduling.png[]
 +
 * A *node selector* is used to specify one or more cluster nodes that the VM is allowed to run on. These can be selected by name, label, or annotation.
 * *Tolerations* are used when a cluster node has a https://docs.openshift.com/container-platform/4.13/nodes/scheduling/nodes-scheduler-taints-tolerations.html[taint] applied. Taints are an indicator that only specific workloads, those with a toleration for the taint, should be allowed to run on the node. They are helpful when you have, for example, some nodes that have GPUs where you only want VMs that use a GPU to run on those nodes.
@@ -78,11 +78,11 @@ image::images/Create_VM_URL/02_Wizard_Scheduling.png[]
 
 . Navigate to the *Network interfaces* tab and notice by default, a Virtual Machine is connected to the `Pod networking` (which is just OpenShift internal networking).
 +
-image::images/Create_VM_URL/03_Wizard_Networking.png[]
+image::Create_VM_URL/03_Wizard_Networking.png[]
 
 . Click the three vertical dots icon to edit `default`, and review the default options:
 +
-image::images/Create_VM_URL/03_Wizard_Networking_Options.png[]
+image::Create_VM_URL/03_Wizard_Networking_Options.png[]
 +
 * The *model* indicates the type of network adapter that will be used. VirtIO is the paravirtual NIC, whereas e1000 and others are emulated devices.
 * *Network* is greyed out because there are no other networks available. In a future module of this workshop, we'll add an additional network for the VMs and use it.
@@ -96,13 +96,13 @@ If you would like to add/manage networks for virtual machines and see how to con
 
 . Navigate to the *Disks* tab to see the devices allocated to the VM.
 +
-image::images/Create_VM_URL/04_Wizard_Storage.png[]
+image::Create_VM_URL/04_Wizard_Storage.png[]
 +
 It is possible to add new and modify the default disks before creating the VM. You can also modify the storage class and the boot source -- for example, to boot from an ISO -- and you can define the disk interface instead of using the default `virtio` interface.
 
 . Click the three vertical dots icon to edit `rootdisk`, and review the default options:
 +
-image::images/Create_VM_URL/04_Wizard_Storage_settings.png[]
+image::Create_VM_URL/04_Wizard_Storage_settings.png[]
 +
 * The *PersistentVolumeClaim Size* will be the size of the disk attached to the VM. If the source of the disk is another PVC, it cannot be smaller than the source, otherwise, you want to make sure it is at least large enough to hold the QCOW2 or ISO that is being imported.
 * The *type* of the disk can be changed to be, for example, a CD-ROM device.
@@ -115,7 +115,7 @@ If you would like to learn more about virtual machine storage, choose the option
 
 . Navigate to the *Scripts* tab. This tab is used to apply guest OS customization, such as cloud-init or Sysprep, at deployment time.
 +
-image::images/Create_VM_URL/05_Wizard_Scripts.png[]
+image::Create_VM_URL/05_Wizard_Scripts.png[]
 +
 * *cloud-init* can be configured using the GUI dialog or using a standard YAML script for more advanced configuration. In the next step, we'll customize this information
 * An *Authorized SSH key* may, optionally, be provided to allow one or more users to connect to the VM without a password. This SSH key can be stored as a `Secret` and automatically applied to new Linux VMs if desired.
@@ -128,11 +128,11 @@ If you want to learn more about how to customize and deploy Windows virtual mach
 +
 Notice that we can also specify network configuration information here by checking the appropriate box. This is useful when, for example, you're connecting the VM directly to a VLAN network and want to configure a static IP address.
 +
-image::images/Create_VM_URL/05_Wizard_Scripts_Password.png[]
+image::Create_VM_URL/05_Wizard_Scripts_Password.png[]
 
 . Press *Create VirtualMachine* ensuring the option *Start this VirtualMachine after creation* is checked.
 +
-image::images/Create_VM_URL/06_Wizard_Review.png[]
+image::Create_VM_URL/06_Wizard_Review.png[]
 +
 [NOTE]
 If you forget to check the _Start this VirtualMachine after creation_ box, after the VM has been created and is in the `Stopped` status, click the *Actions* drop-down in the upper right of the panel and select *Start*.
@@ -153,40 +153,40 @@ The *Templates* page displays four types of virtual machine templates:
 
 . Navigate to *Virtualization* -> *Templates* and select *All projects*
 +
-image::images/Create_VM_URL/09_Template_List.png[]
+image::Create_VM_URL/09_Template_List.png[]
 
 . Press *Create Template* and review auto filled YAML code
 +
-image::images/Create_VM_URL/10_Template_YAML.png[]
+image::Create_VM_URL/10_Template_YAML.png[]
 +
 [NOTE]
 This default template is using a container disk to run a VM. The data will be ephemeral.
 
 . Scroll down and check the parameters for the template
 +
-image::images/Create_VM_URL/11_Template_YAML_parameters.png[]
+image::Create_VM_URL/11_Template_YAML_parameters.png[]
 
 . Press *Create* and review the template details
 +
-image::images/Create_VM_URL/12_Template_details.png[]
+image::Create_VM_URL/12_Template_details.png[]
 
 . Navigate to *Virtualization* -> *Catalog* and filter by keyword `example`. Select the project `vmexamples`
 +
-image::images/Create_VM_URL/13_Catalog.png[]
+image::Create_VM_URL/13_Catalog.png[]
 
 . Press *Customize VirtualMachine* and specify the name `fedora03` and the password `r3dh4t1!`. Press *Next*
 +
-image::images/Create_VM_URL/14_Catalog_Create_VM.png[]
+image::Create_VM_URL/14_Catalog_Create_VM.png[]
 
 . Press *Create VirtualMachine* in the next screen.
 +
-image::images/Create_VM_URL/15_Catalog_Create_VM_Review.png[]
+image::Create_VM_URL/15_Catalog_Create_VM_Review.png[]
 
 . Navigate to *Console* and login with the password defined before.
 
 . Navigate to tab *Configuration* and subtab *Disks*. Review the VM was created with a container disk as the template defined
 +
-image::images/Create_VM_URL/16_Ephemeral_Disk.png[]
+image::Create_VM_URL/16_Ephemeral_Disk.png[]
 
 . Using the *Actions* menu, delete the VM.
 ////

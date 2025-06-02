@@ -19,24 +19,24 @@ This process can be streamlined after the initial operating system installation 
 
 . From the left menu, navigate to *Virtualization* -> *VirtualMachines*:
 +
-image::images/Create_VM_PVC/01_Left_Menu.png[]
+image::Create_VM_PVC/01_Left_Menu.png[]
 . It will list the VMs running in the current project.
 +
-image::images/Create_VM_PVC/25_List_VMs.png[]
+image::Create_VM_PVC/25_List_VMs.png[]
 . Press on the top-right the button *Create* and select *From template*
 +
-image::images/Create_VM_PVC/26_From_Template.png[]
+image::Create_VM_PVC/26_From_Template.png[]
 . Scroll down and select *Microsoft Windows Server 2019 VM* tile.
 +
-image::images/Create_VM_PVC/27_Windows_2k9_Tile.png[]
+image::Create_VM_PVC/27_Windows_2k9_Tile.png[]
 
 . A dialog will appear showing the default configuration related to the template.
 +
-image::images/Create_VM_PVC/28_Windows_2k9_Dialog.png[]
+image::Create_VM_PVC/28_Windows_2k9_Dialog.png[]
 
 . Press *Customize VirtualMachine* to specify the parameters to be used for the provisioning.
 +
-image::images/Create_VM_PVC/29_Windows_2k9_Parameters.png[]
+image::Create_VM_PVC/29_Windows_2k9_Parameters.png[]
 
 . In this dialog:
 .. Specify the name `windows`
@@ -47,11 +47,11 @@ image::images/Create_VM_PVC/29_Windows_2k9_Parameters.png[]
 
 . Press *Next* after filling in the parameters.
 +
-image::images/Create_VM_PVC/30_Windows_2k9_Parameters_Filled.png[]
+image::Create_VM_PVC/30_Windows_2k9_Parameters_Filled.png[]
 
 . Switch to the *Scripts* tab and press *Edit* on the `Sysprep` section
 +
-image::images/Create_VM_PVC/30_Windows_2k9_Scripts.png[]
+image::Create_VM_PVC/30_Windows_2k9_Scripts.png[]
 
 . Fill the `autounattend.xml` form with the following code
 +
@@ -196,19 +196,19 @@ image::images/Create_VM_PVC/30_Windows_2k9_Scripts.png[]
 
 . Click *Save* on the dialog
 +
-image::images/Create_VM_PVC/30_Windows_2k9_Sysprep.png[]
+image::Create_VM_PVC/30_Windows_2k9_Sysprep.png[]
 
 . Press *Create VirtualMachine*
 +
-image::images/Create_VM_PVC/31_Windows_2k9_Create.png[]
+image::Create_VM_PVC/31_Windows_2k9_Create.png[]
 
 . The Virtual Machine will start the provisioning process by downloading the ISO image, configuring, and starting the instance.
 +
-image::images/Create_VM_PVC/32_Windows_2k9_Provisioning.png[]
+image::Create_VM_PVC/32_Windows_2k9_Provisioning.png[]
 
 . After a few minutes, the Virtual VM will be in `Running` status. Switch to the *Console* tab:
 +
-image::images/Create_VM_PVC/33_Windows_2k9_Console.png[]
+image::Create_VM_PVC/33_Windows_2k9_Console.png[]
 +
 [NOTE]
 It is not necessary for this workshop to wait for the installation to complete. You can continue to the next module.

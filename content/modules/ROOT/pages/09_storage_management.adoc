@@ -13,7 +13,7 @@ This workshop segment will explore Persistent Volume Claims (PVCs), which are us
 
 Notably, there are no restrictions on storage protocol (e.g. NFS, iSCSI, FC, etc.) specific to OpenShift Virtualization. The only requirement is that the RWX access mode is available for live migration. Otherwise, the storage that best meets the needs of your VMs and applications is always the right choice.
 
-image::images/Storage/00_disk_concepts.png[]
+image::Storage/00_disk_concepts.png[]
 
 == OpenShift Virtualization Default Boot Sources
 
@@ -34,15 +34,15 @@ The project `openshift-virtualization-os-images` contains all available boot sou
 
 . Navigate to *Storage* -> *PersistentVolumeClaims*:
 +
-image::images/Storage/00_Left_Menu.png[]
+image::Storage/00_Left_Menu.png[]
 
 . Press in the dropdown for the projects, enable `Show default projects`, and select the project `openshift-virtualization-os-images`
 +
-image::images/Storage/01_Select_Project.png[]
+image::Storage/01_Select_Project.png[]
 
 . List the boot sources that OpenShift Virtualization automatically created.
 +
-image::images/Storage/02_List_PVCs.png[]
+image::Storage/02_List_PVCs.png[]
 
 . Select one from the list, for example, `fedora-XX`, to obtain detailed information.
 +
@@ -50,23 +50,23 @@ In this lab, each of the PVCs will come from the `ocs-storagecluster-ceph-rbd` s
 +
 The capacity should be large enough to hold the base operating system and any packages/software installed that will be used by any VMs created from this template disk. VMs created by cloning the disk can increase the size of the disk but cannot shrink it.
 +
-image::images/Storage/03_PVC_Info.png[]
+image::Storage/03_PVC_Info.png[]
 
 . When a VM is created, the _Boot Source_ image is cloned, and a new disk is created. Switch to the project `vmexamples` and review the list of the _PVCs_ (disks). You will see a PVC for each of the disks for VMs in this project and a PVC for the Microsoft Windows Server 2019 disk image created in an earlier section of this workshop. This PVC, with the Microsoft Windows ISO, can be reused by other virtual machines to install the operating system if desired.
 +
-image::images/Storage/04_List_PVCs_VMs.png[]
+image::Storage/04_List_PVCs_VMs.png[]
 
 . Select the `fedora02` to obtain information
 +
-image::images/Storage/05_PVC_VM_Info.png[]
+image::Storage/05_PVC_VM_Info.png[]
 
 . A _Persistent Volume Claim_ will claim to a specific _storage class_ or to the default one to provision a _volume_. Navigate to *Storage* -> *PersistentVolumes* to obtain a list. Sort by *Claim*.
 +
-image::images/Storage/07_PV_List.png[]
+image::Storage/07_PV_List.png[]
 
 . Now navigate to *Virtualization* -> *Bootable volumes* to obtain a list of the available volumes
 +
-image::images/Storage/08_List_Bootable_Volumes.png[]
+image::Storage/08_List_Bootable_Volumes.png[]
 
 == Snapshots
 
@@ -96,26 +96,26 @@ With the VM snapshots feature, cluster administrators and application developers
 
 . Navigate back to *Virtualization* -> *VirtualMachines* and select a virtual machine, for example `fedora02` in the project `vmexamples`.
 +
-image::images/Storage/09_VM_Overview.png[]
+image::Storage/09_VM_Overview.png[]
 
 . Navigate to the *Snapshots* tab
 +
-image::images/Storage/10_VM_Snapshots_Tab.png[]
+image::Storage/10_VM_Snapshots_Tab.png[]
 
 . Press *Take snapshot* and a dialog will open
 +
 [NOTE]
 There is a warning about the `cloudinitdisk` not being included in the snapshot. This is expected and happens because it is an ephemeral disk.
 +
-image::images/Storage/11_VM_Snapshot_Dialog.png[]
+image::Storage/11_VM_Snapshot_Dialog.png[]
 
 . Press *Save* and wait till the _Snapshot_ has been created and the *status* shows as `Succeeded`
 +
-image::images/Storage/12_VM_Snapshot_Taken.png[]
+image::Storage/12_VM_Snapshot_Taken.png[]
 
 . Press the three dots and check that the *Restore* option is greyed out because the VM is running
 +
-image::images/Storage/13_VM_Restore_Disabled.png[]
+image::Storage/13_VM_Restore_Disabled.png[]
 
 . Switch to the *Console* tab to perform a modification to your running VM. This small modification will break your VM, and it won't be able to boot anymore.
 +
@@ -131,25 +131,25 @@ Log in with the user `fedora` and password `ocpVirtIsGre@t` (or whatever you use
 [IMPORTANT]
 In the previous step, the operating system was shutdown from within the guest. However, OpenShift Virtualization will restart it automatically by default. This behavior can be changed globally or on a per-VM basis.
 +
-image::images/Storage/14_VM_Crashed.png[]
+image::Storage/14_VM_Crashed.png[]
 
 . Using the *Actions* dropdown menu, stop the _Virtual Machine_. Wait until the VM is stopped.
 
 . Navigate back to the *Snapshots* tab and press *Restore* on the previously created snapshot.
 +
-image::images/Storage/15_VM_Restore.png[]
+image::Storage/15_VM_Restore.png[]
 
 . In the dialog shown, press *Restore*
 +
-image::images/Storage/16_VM_Restore_Dialog.png[]
+image::Storage/16_VM_Restore_Dialog.png[]
 
 . Wait until the VM is restored, and then start the VM 
 +
-image::images/Storage/17_VM_Restored.png[]
+image::Storage/17_VM_Restored.png[]
 
 . Verify that the VM is booting correctly again.
 +
-image::images/Storage/18_VM_Running.png[]
+image::Storage/18_VM_Running.png[]
 
 == Clone a Virtual Machine
 
@@ -157,14 +157,14 @@ Cloning creates a new VM that uses its disk image for storage, but most of the c
 
 . Press *Clone* from the *Actions* menu, and a dialog will open
 +
-image::images/Storage/19_VM_Clone_Dialog.png[]
+image::Storage/19_VM_Clone_Dialog.png[]
 +
 [NOTE]
 Notice the VM, if is powered on, it will be stopped to perform the clone. If you have a snapshot of the VM, you can also create a clone from the snapshot without powering off the VM.
 
 . A new VM is created, the disks are cloned and automatically the portal will redirect you to the new VM.
 +
-image::images/Storage/20_VM_Cloned.png[]
+image::Storage/20_VM_Cloned.png[]
 +
 [IMPORTANT]
 The cloned VM will have the same identity as the source VM, which may cause conflicts with applications and other clients interacting with the VM. Use caution when cloning a VM connected to an external network or in the same project.

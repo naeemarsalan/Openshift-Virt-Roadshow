@@ -40,7 +40,7 @@ To manage an OpenShift node's network configuration you use a tool, available as
 
 . Navigate to *Networking* -> *Network Attachment Definitions* and click *Create network attachment definition*:
 +
-image::images/Networking/01_NAD_Dashboard.png[]
+image::Networking/01_NAD_Dashboard.png[]
 +
 [IMPORTANT]
 ====
@@ -52,7 +52,7 @@ Select project `vmexamples`.
 * *Network Type*: `CNV Linux Bridge`
 * *Bridge Name*: `br-flat`
 +
-image::images/Networking/02_NAD_Create.png[]
+image::Networking/02_NAD_Create.png[]
 +
 [NOTE]
 The form above has an input for `VLAN Tag Number`, which is used when connecting to a network that needs to have a VLAN tag assigned. This lab uses an untagged network, so no VLAN number is required here.
@@ -61,23 +61,23 @@ A single Linux Bridge on the host can have many different VLANs. In this scenari
 
 . Examine the details of the network attachment definition. Because this was created in the `vmexamples` project, it will not be available in other projects.
 +
-image::images/Networking/03_NAD_Created.png[]
+image::Networking/03_NAD_Created.png[]
 
 == Connect a virtual machine to the external network
 
 . Navigate to *Virtualization* -> *VirtualMachines*, select the `fedora02` VM. Click *Configuration* tab and then click the *Network Interfaces* subtab:
 +
-image::images/Networking/04_VM_Network_Tab.png[]
+image::Networking/04_VM_Network_Tab.png[]
 
 . Click *Add Network Interface*, complete the form as shown, then click *Save*.
 +
 Because this is a bridge connecting to the external network, we don't need to rely on any OpenShift features or capabilities to enable access, such as masquerade (NAT) for the virtual machines using the network. As a result, *type* should be `Bridge` here.
 +
-image::images/Networking/05_VM_Network_Attach.png[]
+image::Networking/05_VM_Network_Attach.png[]
 
 . Use the *Actions* menu to restart the VM. After rebooting, navigate to the *Console* tab:
 +
-image::images/Networking/06_VM_Network_Console.png[]
+image::Networking/06_VM_Network_Console.png[]
 +
 The `eth1` interface obtains an IP address from the flat network (`192.168.3.x/24`). That network has a DHCP server providing IPs to that network. 
 +
@@ -86,11 +86,11 @@ The `eth1` interface obtains an IP address from the flat network (`192.168.3.x/2
 +
 .. Open a terminal by pressing the right-top icon:
 +
-image::images/OCP_Terminal_Icon.png[]
+image::OCP_Terminal_Icon.png[]
 
 .. A console in the bottom part of the screen will appear
 +
-image::images/OCP_Terminal.png[]
+image::OCP_Terminal.png[]
 
 .. Type the following command replacing the IP
 +

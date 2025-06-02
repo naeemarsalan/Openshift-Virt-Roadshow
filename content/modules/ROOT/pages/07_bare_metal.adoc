@@ -65,7 +65,7 @@ Almost every interaction with Red Hat OpenShift can be done in the OpenShift Con
 
 . From the navigation menu, select *Compute* -> *Nodes*:
 +
-image::images/Install/Compute_Nodes.png[]
+image::Install/Compute_Nodes.png[]
 +
 There are three control plane nodes and three worker nodes in the OpenShift 4 Cluster. In addition, the `ipmi` (Intelligent Platform Management Interface) is being used to manage the bare metal nodes.
 +
@@ -73,7 +73,7 @@ A node is a virtual or bare metal machine in an OpenShift cluster. Worker nodes 
 
 . Click on one of the worker nodes to obtain resource information about the node:
 +
-image::images/Install/Worker0_Information.png[]
+image::Install/Worker0_Information.png[]
 +
 The *Overview* tab is showing useful information about the utilization of the resources, such as CPU and memory. It also shows all the applications (*Pods*) that are running inside on this node.
 
@@ -82,7 +82,7 @@ At least one physical node is required for OpenShift Virtualization, "nesting" a
 
 . Navigate to the tab *Details* to obtain more information about the operating system.
 +
-image::images/Install/Worker0_Details.png[]
+image::Install/Worker0_Details.png[]
 
 === Review Bare Metal hosts
 
@@ -90,13 +90,13 @@ When using `Baseboard Management Console (BMC)` it is possible to manage the nod
 
 . Select *Compute* -> *Bare Metal Hosts*:
 +
-image::images/Install/BMHosts.png[]
+image::Install/BMHosts.png[]
 +
 During installation, the *Control Plane* nodes are provisioned by the OpenShift Container Platform installation program (that is why the status is `Externally provisioned`) and when the control plane is ready, the *Worker* nodes are provisioned by cluster itself (hence the status `Provisioned`) and joined to the cluster. While not a part of this lab, it is possible to scale up the cluster by adding new hosts using the *Add Host* button.
 
 . Click on any of the worker nodes to obtain information about the physical (bare metal) node:
 +
-image::images/Install/Worker0_BMhost.png[]
+image::Install/Worker0_BMhost.png[]
 +
 The information shown is similar to the *Nodes* one, with the exception is providing information related to the hardware and the physical status of the bare metal node. Using the *Actions* menu, it is possible to manage aspects of the bare metal host, such as restarting or stopping the system using `BMC`.
 
@@ -109,7 +109,7 @@ Due to the time constraints of this session, the OpenShift Virtualization Operat
 
 For this workshop we'll be focusing on two Operators: OpenShift Virtualization and the Migration Toolkit for Virtualization.
 
-image::images/Install/environment_installed_operators.png[]
+image::Install/environment_installed_operators.png[]
 
 
 === Examine the OpenShift Virtualization Operator
@@ -118,13 +118,13 @@ image::images/Install/environment_installed_operators.png[]
 
 . Click the *Details* tab to view information about the Operator:
 +
-image::images/Install/environment_operator_details.png[]
+image::Install/environment_operator_details.png[]
 +
 The Operator provides two custom resource definitions (CRDs) to extend the Kubernetes API: the OpenShift Virtualization deployment and the Host Path Provisioner. Installing the Operator is only the first step to deploying OpenShift Virtualization, an instance of the OpenShift Virtualization Deployment must also be created.
 
 . Click the *OpenShift Virtualization Deployment* tab, then click the *Create HyperConverged* button:
 +
-image::images/Install/environment_operator_crd.png[]
+image::Install/environment_operator_crd.png[]
 +
 [NOTE]
 OpenShift Virtuailzation, even when deployed to a cluster with OpenShift Data Foundation or another Kubernetes-native storage solution, is not a hyperconverged product, which makes the Kubernetes object name misleading. This naming is the result of the history of the upstream KubeVirt project and it's origins as a part of the "Kubernetes-native Infrastructure" meta-project.
@@ -133,7 +133,7 @@ OpenShift Virtuailzation, even when deployed to a cluster with OpenShift Data Fo
 +
 This screen represents global configuration options for OpenShift Virtualization and can be used to enable/disable features of OpenShift Virtualization and VM capabilities. For example, scroll down then expand the menu item for *featureGates*. The *withHostPassthroughCPU* option is not enabled by default, however if you wanted to allow virtual machines to inherit the exact CPU features and capabilities of the physical node it's being hosted on then you would need to check this box.
 +
-image::images/Install/environment_operator_create.png[]
+image::Install/environment_operator_create.png[]
 +
 *IMPORTANT:* Do not click *Create* at the bottom of the form. This is unnecessary, OpenShift Virtualization has already been deployed to the lab cluster.
 ////
