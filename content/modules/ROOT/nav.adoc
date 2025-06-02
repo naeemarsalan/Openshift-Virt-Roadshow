@@ -1,4 +1,4 @@
-* xref:01_welcome.adoc[Welcome]
+* xref:index.adoc[Welcome]
 * xref:02_ocp_basics.adoc[OpenShift Container Platform Basics]
 * xref:03_ocpv_arch.adoc[OpenShift Virtualization Architecture]
 * xref:04_vmware-compare.adoc[VMware vs. OpenShift Virtualization]
