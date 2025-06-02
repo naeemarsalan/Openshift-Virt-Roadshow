@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-
+set -x
 echo "Starting build process..."
 echo "Removing old site..."
 rm -rf ./www/*
 echo "Building new site..."
 
 podman run --rm --name showroom-builder --platform linux/amd64 \
-  -v "./:/antora:z" \
+  -v "./:/antora" \
   docker.io/antora/antora --stacktrace default-site.yml
 
 echo "Build process complete. Check the ./www folder for the generated site."

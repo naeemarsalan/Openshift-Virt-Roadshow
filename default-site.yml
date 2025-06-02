@@ -1,7 +1,7 @@
 ---
 site:
-  title: OpenShift Primer
-  url: https://workshop.k8socp.com
+  title: OpenShift Virt Workshop 
+  url: https://virt-workshop.k8socp.com
   start_page: modules::index.adoc
 
 content:

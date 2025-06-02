@@ -1,12 +1,12 @@
 name: modules
-title: OpenShift Primer
+title: OpenShift Virt Workshop 
 version: master
 nav:
   - modules/ROOT/nav.adoc
 
 asciidoc:
   attributes:
-    lab_name: "OpenShift Primer"
+    lab_name: "OpenShift Virt Roadshow"
     release-version: master
     page-pagination: true
     page-links:
