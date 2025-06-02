@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Storage Management  Lab :: OpenShift Virt Workshop</title>
+    <link rel="canonical" href="https://virt-workshop.k8socp.com/modules/09_storage_management.html">
+    <link rel="prev" href="08_network_management.html">
+    <link rel="next" href="10_backup_restore.html">
+    <meta name="generator" content="Antora 3.1.10">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://demo.redhat.com" target="_blank" style="margin-left: 5%;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739" style="width: 278px;"><g fill="#fff"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#fff"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#fff" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg>
+      </a>
+      <a class="navbar-item site-title" target="__blank" style="color: #fff !important;" href="https://virt-workshop.k8socp.com">OpenShift Virt Workshop</a>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item navbar-item-right-dropdown has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Links</a>
+          <div class="navbar-dropdown navbar-dropdown-right">
+            <a class="navbar-item navbar-item-right-content" href="https://github.com/shpwrck/retail-store-sample-app" target="_blank">Application Source Repository</a>
+            <a class="navbar-item navbar-item-right-content" href="https://github.com/shpwrck/prometheus-example-app" target="_blank">Prometheus Example Source Repository</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">OpenShift Virt Workshop</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02_ocp_basics.html">OpenShift Container Platform Basics</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03_ocpv_arch.html">OpenShift Virtualization Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04_vmware-compare.html">VMware vs. OpenShift Virtualization</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05_ocpv_basics.html">OpenShift Virtualization Basics</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06_ocpv_customization.html">Customize Virtual Machines</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="07_windows_vm.html">Windows Virtual Machines</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="08_network_management.html">Network Management</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="09_storage_management.html">Storage Management</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="10_backup_restore.html">Backup and Restore</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="11_service_route.html">Optional: Exposing apps using a Route</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="12_metallb.html">Optional: Exposing apps using MetalLB</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">OpenShift Virt Workshop</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Virt Workshop</a></li>
+    <li><a href="09_storage_management.html">Storage Management</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Storage Management  Lab</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction_to_storage_management">1. Introduction to Storage Management</a></li>
+<li><a href="#_openshift_virtualization_default_boot_sources">2. OpenShift Virtualization Default Boot Sources</a></li>
+<li><a href="#_snapshots">3. Snapshots</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction">3.1. Introduction</a></li>
+<li><a href="#_creating_and_using_snapshots">3.2. Creating and using Snapshots</a></li>
+</ul>
+</li>
+<li><a href="#_clone_a_virtual_machine">4. Clone a Virtual Machine</a>
+<ul class="sectlevel2">
+<li><a href="#_glossary_of_terms">4.1. Glossary of terms</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_introduction_to_storage_management"><a class="anchor" href="#_introduction_to_storage_management"></a>1. Introduction to Storage Management</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Red Hat OpenShift supports multiple types of storage, both for on-premises and cloud providers. OpenShift Virtualization can use any supported container storage interface (CSI) provisioner in the environment you&#8217;re running on. For example, OpenShift Data Foundation, NetApp, Dell/EMC, Fujitsu, Hitachi, Pure Storage, Portworx, and many others support on-premises, CSI provisioned, ReadWriteMany (RWX) volumes with OpenShift Virtualization.</p>
+</div>
+<div class="paragraph">
+<p>This workshop segment will explore Persistent Volume Claims (PVCs), which are used to request storage from the provider and store a VM disk. Many storage providers also support snapshots and clones of their devices, be sure to check with your vendor to verify the features supported by the CSI driver and storage device.</p>
+</div>
+<div class="paragraph">
+<p>Notably, there are no restrictions on storage protocol (e.g. NFS, iSCSI, FC, etc.) specific to OpenShift Virtualization. The only requirement is that the RWX access mode is available for live migration. Otherwise, the storage that best meets the needs of your VMs and applications is always the right choice.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/00_disk_concepts.png" alt="00 disk concepts">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_openshift_virtualization_default_boot_sources"><a class="anchor" href="#_openshift_virtualization_default_boot_sources"></a>2. OpenShift Virtualization Default Boot Sources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Persistent virtual machines require persistent storage. This lab environment has OpenShift Data Foundation deployed to provide access to shared persistent volumes to host application data and virtual machine disks. During the installation of the OpenShift Virtualization Operator, some <code>PersistentVolumeClaims</code> were automatically created to hold template disks for various Linux distributions. These include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red Hat Enterprise Linux 8</p>
+</li>
+<li>
+<p>Red Hat Enterprise Linux 9</p>
+</li>
+<li>
+<p>Fedora</p>
+</li>
+<li>
+<p>CentOS 7</p>
+</li>
+<li>
+<p>CentOS Stream 8</p>
+</li>
+<li>
+<p>CentOS Stream 9</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Using these OS images is optional, and the creation + download can be disabled via the appropriate setting in the Operator. However, they are a quick and convenient way to get started provisioning virtual machines with OpenShift Virtualization since they use the "cloud" image for each of the respective distributions. This image includes cloud-init and, often, is a reduced OS footprint optimized for virtualization. Additionally, Red Hat provided boot images are automatically updated when new templates are released.</p>
+</div>
+<div class="paragraph">
+<p>In this section, we will examine the PVCs created by the Operator along with PVCs used by a virtual machine.</p>
+</div>
+<div class="paragraph">
+<p>The project <code>openshift-virtualization-os-images</code> contains all available boot sources and is automatically enabled when <strong>OpenShift Virtualization</strong> is installed.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Storage</strong> &#8594; <strong>PersistentVolumeClaims</strong>:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/00_Left_Menu.png" alt="00 Left Menu">
+</div>
+</div>
+</li>
+<li>
+<p>Press in the dropdown for the projects, enable <code>Show default projects</code>, and select the project <code>openshift-virtualization-os-images</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/01_Select_Project.png" alt="01 Select Project">
+</div>
+</div>
+</li>
+<li>
+<p>List the boot sources that OpenShift Virtualization automatically created.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/02_List_PVCs.png" alt="02 List PVCs">
+</div>
+</div>
+</li>
+<li>
+<p>Select one from the list, for example, <code>fedora-XX</code>, to obtain detailed information.</p>
+<div class="paragraph">
+<p>In this lab, each of the PVCs will come from the <code>ocs-storagecluster-ceph-rbd</code> storage class provided by OpenShift Data Foundation. The details of the PVC show that it is a <code>ReadWriteMany</code> PVC, which is required for live migration and is using <code>block</code> mode. The mode can be <code>block</code> or <code>file</code>, depending on the storage vendor, and either will work equally well so long as <code>RWX</code> mode is available.</p>
+</div>
+<div class="paragraph">
+<p>The capacity should be large enough to hold the base operating system and any packages/software installed that will be used by any VMs created from this template disk. VMs created by cloning the disk can increase the size of the disk but cannot shrink it.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/03_PVC_Info.png" alt="03 PVC Info">
+</div>
+</div>
+</li>
+<li>
+<p>When a VM is created, the <em>Boot Source</em> image is cloned, and a new disk is created. Switch to the project <code>vmexamples</code> and review the list of the <em>PVCs</em> (disks). You will see a PVC for each of the disks for VMs in this project and a PVC for the Microsoft Windows Server 2019 disk image created in an earlier section of this workshop. This PVC, with the Microsoft Windows ISO, can be reused by other virtual machines to install the operating system if desired.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/04_List_PVCs_VMs.png" alt="04 List PVCs VMs">
+</div>
+</div>
+</li>
+<li>
+<p>Select the <code>fedora02</code> to obtain information</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/05_PVC_VM_Info.png" alt="05 PVC VM Info">
+</div>
+</div>
+</li>
+<li>
+<p>A <em>Persistent Volume Claim</em> will claim to a specific <em>storage class</em> or to the default one to provision a <em>volume</em>. Navigate to <strong>Storage</strong> &#8594; <strong>PersistentVolumes</strong> to obtain a list. Sort by <strong>Claim</strong>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/07_PV_List.png" alt="07 PV List">
+</div>
+</div>
+</li>
+<li>
+<p>Now navigate to <strong>Virtualization</strong> &#8594; <strong>Bootable volumes</strong> to obtain a list of the available volumes</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/08_List_Bootable_Volumes.png" alt="08 List Bootable Volumes">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_snapshots"><a class="anchor" href="#_snapshots"></a>3. Snapshots</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction"><a class="anchor" href="#_introduction"></a>3.1. Introduction</h3>
+<div class="paragraph">
+<p>OpenShift Virtualization relies on the CSI storage provider&#8217;s snapshot capability to create disk snapshots for the virtual machine, which can be taken "online" while the VM is running or "offline" while the VM is powered off. If the KVM integrations are installed to the VM, you will also have the option of quiescing the guest operating system (quiescing ensures that the snapshot of the disk represents a consistent state of the guest file systems, e.g., buffers are flushed and the journal is consistent).</p>
+</div>
+<div class="paragraph">
+<p>Since disk snapshots are dependent on the storage implementation, abstracted by CSI, performance impact and capacity used will depend on the storage provider. Work with your storage vendor to determine how the system will manage PVC snapshots and the impact they may or may not have.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Snapshots, by themselves, are not a backup or disaster recovery capability. The data needs to be protected in other ways, such as one or more copies stored in a different location, to recover from the storage system failing.</p>
+</div>
+<div class="paragraph">
+<p>In addition to the OpenShift API for Data Protection (OADP), partners such as Kasten by Veeam, Trilio, and Storware support the ability to backup and restore virtual machines to the same cluster or other clusters as needed.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>With the VM snapshots feature, cluster administrators and application developers can:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new snapshot</p>
+</li>
+<li>
+<p>List all snapshots attached to a specific VM</p>
+</li>
+<li>
+<p>Revert a VM to a snapshot</p>
+</li>
+<li>
+<p>Delete an existing VM snapshot</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_and_using_snapshots"><a class="anchor" href="#_creating_and_using_snapshots"></a>3.2. Creating and using Snapshots</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate back to <strong>Virtualization</strong> &#8594; <strong>VirtualMachines</strong> and select a virtual machine, for example <code>fedora02</code> in the project <code>vmexamples</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/09_VM_Overview.png" alt="09 VM Overview">
+</div>
+</div>
+</li>
+<li>
+<p>Navigate to the <strong>Snapshots</strong> tab</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/10_VM_Snapshots_Tab.png" alt="10 VM Snapshots Tab">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Take snapshot</strong> and a dialog will open</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There is a warning about the <code>cloudinitdisk</code> not being included in the snapshot. This is expected and happens because it is an ephemeral disk.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/11_VM_Snapshot_Dialog.png" alt="11 VM Snapshot Dialog">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Save</strong> and wait till the <em>Snapshot</em> has been created and the <strong>status</strong> shows as <code>Succeeded</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/12_VM_Snapshot_Taken.png" alt="12 VM Snapshot Taken">
+</div>
+</div>
+</li>
+<li>
+<p>Press the three dots and check that the <strong>Restore</strong> option is greyed out because the VM is running</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/13_VM_Restore_Disabled.png" alt="13 VM Restore Disabled">
+</div>
+</div>
+</li>
+<li>
+<p>Switch to the <strong>Console</strong> tab to perform a modification to your running VM. This small modification will break your VM, and it won&#8217;t be able to boot anymore.</p>
+<div class="paragraph">
+<p>Log in with the user <code>fedora</code> and password <code>ocpVirtIsGre@t</code> (or whatever you used in the previous module). Execute the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">[fedora@fedora02 ~]$ sudo rm -rf /boot/grub2; sudo shutdown -r now</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The <em>Virtual Machine</em> will not be able to boot.</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+In the previous step, the operating system was shutdown from within the guest. However, OpenShift Virtualization will restart it automatically by default. This behavior can be changed globally or on a per-VM basis.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/14_VM_Crashed.png" alt="14 VM Crashed">
+</div>
+</div>
+</li>
+<li>
+<p>Using the <strong>Actions</strong> dropdown menu, stop the <em>Virtual Machine</em>. Wait until the VM is stopped.</p>
+</li>
+<li>
+<p>Navigate back to the <strong>Snapshots</strong> tab and press <strong>Restore</strong> on the previously created snapshot.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/15_VM_Restore.png" alt="15 VM Restore">
+</div>
+</div>
+</li>
+<li>
+<p>In the dialog shown, press <strong>Restore</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/16_VM_Restore_Dialog.png" alt="16 VM Restore Dialog">
+</div>
+</div>
+</li>
+<li>
+<p>Wait until the VM is restored, and then start the VM</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/17_VM_Restored.png" alt="17 VM Restored">
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the VM is booting correctly again.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/18_VM_Running.png" alt="18 VM Running">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_clone_a_virtual_machine"><a class="anchor" href="#_clone_a_virtual_machine"></a>4. Clone a Virtual Machine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cloning creates a new VM that uses its disk image for storage, but most of the clone&#8217;s configuration and stored data is identical to the source VM.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Press <strong>Clone</strong> from the <strong>Actions</strong> menu, and a dialog will open</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/19_VM_Clone_Dialog.png" alt="19 VM Clone Dialog">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Notice the VM, if is powered on, it will be stopped to perform the clone. If you have a snapshot of the VM, you can also create a clone from the snapshot without powering off the VM.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>A new VM is created, the disks are cloned and automatically the portal will redirect you to the new VM.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/Storage/20_VM_Cloned.png" alt="20 VM Cloned">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The cloned VM will have the same identity as the source VM, which may cause conflicts with applications and other clients interacting with the VM. Use caution when cloning a VM connected to an external network or in the same project.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_glossary_of_terms"><a class="anchor" href="#_glossary_of_terms"></a>4.1. Glossary of terms</h3>
+<div class="paragraph">
+<p><strong>Container Storage Interface (CSI)</strong>: An API specification for the management of container storage across different container orchestration (CO) systems. An OpenShift cluster can have many CSI provisioners from different vendors, and each VM can use storage from multiple vendors without conflicts.</p>
+</div>
+<div class="paragraph">
+<p><strong>Dynamic Provisioning</strong>: The storage framework allows you to create  volumes on-demand, eliminating the need for cluster administrators to pre-provision persistent storage. Each VM disk is stored in a dynamically created storage volume at a 1:1 ratio.</p>
+</div>
+<div class="paragraph">
+<p><strong>Persistent volumes (PV)</strong>: OpenShift Virtualization uses the Kubernetes persistent volume (PV) framework to allow cluster administrators to provision persistent storage for a cluster. VMs use a <em>PVC</em> to request PV resources without having specific knowledge of the underlying storage infrastructure.</p>
+</div>
+<div class="paragraph">
+<p><strong>Persistent volume claims (PVCs)</strong>: A <em>PVC</em> is a request for storage capacity and, when bound to a PV, how the system knows which storage volume to mount for the VM. As a VM user, you&#8217;re able to use the storage without knowing the details of the underlying infrastructure environment.</p>
+</div>
+<div class="paragraph">
+<p><strong>Storage class</strong>: A <em>storage class</em> provides a way for administrators to describe the classes of storage they offer, for example, "gold," "silver," and "bronze". Different classes might map to quality of service levels, backup policies, and arbitrary policies determined by the cluster administrators. These will be specific to your storage vendor.</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="08_network_management.html" class="query-params-link">Network Management</a></span>
+  <span class="next"><a href="10_backup_restore.html" class="query-params-link">Backup and Restore</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>  </div>
+</main>
+</div>
+<footer class="footer">
+  <a href="https://demo.redhat.com" target="_blank" class="poweredBy"><p>Powered by</p><div class="labInfo_poweredBy" style="display: block; width: 260px;"><svg class="labInfo_poweredByLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739"><g fill="#111"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#111"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#111" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg></div></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Migration Toolkit for Virtualization :: OpenShift Virt Workshop</title>
+    <link rel="canonical" href="https://virt-workshop.k8socp.com/modules/11_service_route.html">
+    <link rel="prev" href="10_backup_restore.html">
+    <link rel="next" href="12_metallb.html">
+    <meta name="generator" content="Antora 3.1.10">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://demo.redhat.com" target="_blank" style="margin-left: 5%;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739" style="width: 278px;"><g fill="#fff"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#fff"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#fff" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg>
+      </a>
+      <a class="navbar-item site-title" target="__blank" style="color: #fff !important;" href="https://virt-workshop.k8socp.com">OpenShift Virt Workshop</a>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item navbar-item-right-dropdown has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Links</a>
+          <div class="navbar-dropdown navbar-dropdown-right">
+            <a class="navbar-item navbar-item-right-content" href="https://github.com/shpwrck/retail-store-sample-app" target="_blank">Application Source Repository</a>
+            <a class="navbar-item navbar-item-right-content" href="https://github.com/shpwrck/prometheus-example-app" target="_blank">Prometheus Example Source Repository</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">OpenShift Virt Workshop</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02_ocp_basics.html">OpenShift Container Platform Basics</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03_ocpv_arch.html">OpenShift Virtualization Architecture</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04_vmware-compare.html">VMware vs. OpenShift Virtualization</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05_ocpv_basics.html">OpenShift Virtualization Basics</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06_ocpv_customization.html">Customize Virtual Machines</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="07_windows_vm.html">Windows Virtual Machines</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="08_network_management.html">Network Management</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="09_storage_management.html">Storage Management</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="10_backup_restore.html">Backup and Restore</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="11_service_route.html">Optional: Exposing apps using a Route</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="12_metallb.html">Optional: Exposing apps using MetalLB</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">OpenShift Virt Workshop</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Virt Workshop</a></li>
+    <li><a href="11_service_route.html">Optional: Exposing apps using a Route</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Migration Toolkit for Virtualization</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_using_a_service_and_route_to_expose_an_application">Using a Service and Route to expose an application</a>
+<ul class="sectlevel2">
+<li><a href="#_create_the_service">Create the Service</a></li>
+<li><a href="#_create_the_route">Create the Route</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, virtual machines are connected to the SDN, which is a convenient and easy way to give them access to the rest of the network, but can be challenging for the virtual machines, and other Pods in the OpenShift cluster, to find and connect to the virtualized applications. To solve this, we will use a <code>Service</code> to balance connections across the two Windows-based web servers, and create a DNS entry for each service discovery, then create a <code>Route</code> to allow external clients to access the application hosted within the virtual machines.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you have not completed the module <strong>Migrating Virtual Machines</strong>, it is recommended that you do that module first. However, you can use pre-existing virtual machines that have been imported automatically in the <code>vmimported</code> project.</p>
+</div>
+<div class="paragraph">
+<p>If you are using the pre-imported virtual machines, please replace all instances of <code>vmexamples</code> namespace with <code>vmimported</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_a_service_and_route_to_expose_an_application"><a class="anchor" href="#_using_a_service_and_route_to_expose_an_application"></a>Using a Service and Route to expose an application</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_the_service"><a class="anchor" href="#_create_the_service"></a>Create the Service</h3>
+<div class="paragraph">
+<p>The <code>Service</code> identifies the source/target for traffic, and directs clients to, the endpoints based on labels. Currently, the VMs do not have a label assigned yet.</p>
+</div>
+<div class="paragraph">
+<p>In order to successfully associate the  VMs with the Service, we need to do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a label to the VMs. We will use the same label for both Windows IIS servers because they are both behind the same load balancer.</p>
+</li>
+<li>
+<p>Create the service to make the two Windows IIS servers available for other workloads on the cluster. OpenShift will automatically make the load balancer internally accessible using the name of the Service as the DNS name.</p>
+</li>
+<li>
+<p>Make the service available outside of OpenShift by creating a <strong>Route</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To begin, we&#8217;ll add labels to the virtual machines by modifying their definition in the OpenShift Virtualization GUI.</p>
+</div>
+<div class="sect3">
+<h4 id="_label_the_virtual_machines"><a class="anchor" href="#_label_the_virtual_machines"></a>Label the virtual machines</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the OpenShift console, navigate to <strong>Virtualization</strong> &#8594; <strong>VirtualMachines</strong> and ensure the migrated VMs successfully imported and are running.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/60_VMWARE_VMs_List.png" alt="60 VMWARE VMs List">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ensure you select the correct project, <code>vmexamples</code> if you completed the <strong>Migrating Virtual Machines</strong> module or <code>vmimported</code> if you did not.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Select to the <code>winweb01</code> VM and navigate to the <strong>YAML</strong> tab.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/204_label_navigation.png" alt="204 label navigation">
+</div>
+</div>
+</li>
+<li>
+<p>Find the <code>spec:</code> section and under the <code>template.metadata</code> add the following lines to label the VM resources:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">      labels:
+        env: webapp</pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Make sure to get the indentation exactly right - just like in the screenshot below.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/61_VMWARE_VMs_YAML.png" alt="61 VMWARE VMs YAML">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Repeat</strong> the process for the VM <code>winweb02</code>.</p>
+</li>
+<li>
+<p>Start, or restart if already running, the <em>Virtual Machines</em> <code>database</code>, <code>winweb01</code> and <code>winweb02</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Ensure the VMs are properly working by accessing to the console tab of each VM.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_the_service_2"><a class="anchor" href="#_create_the_service_2"></a>Create the Service</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Networking</strong> &#8594; <strong>Services</strong> and press <strong>Create Service</strong>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/200_navigate_service.png" alt="200 navigate service">
+</div>
+</div>
+<div class="paragraph">
+<p>Remember the label that you added to your VMs (<code>env=webapp</code>)? The Service will use that label in its selector to pick which VMs to route traffic to.</p>
+</div>
+</li>
+<li>
+<p>Replace the YAML with the following definition</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: vmexamples
+spec:
+  selector:
+    env: webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ensure the namespace with your virtual machines, <code>vmexamples</code> or <code>vmimported</code>, is the one used in the Service YAML.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/201_service_yaml.png" alt="201 service yaml">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Create</strong>.</p>
+</li>
+<li>
+<p>From the details page for the newly created <code>webapp</code> Service, locate <strong>Pod selector</strong> link and click it.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/62_00_VMWARE_VMs_podSelector.png" alt="62 00 VMWARE VMs podSelector">
+</div>
+</div>
+</li>
+<li>
+<p>Verify the two Windows VMs are properly identified and targeted by the Service.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/62_01_VMWARE_VMs_podSelector_verification.png" alt="62 01 VMWARE VMs podSelector verification">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>What if the VMs are not in this list? There are a few things to verify and double check. At any time, summon a proctor for help if you prefer.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Ensure that the label applied to the VMs and the selector used by the Service match.</p>
+</li>
+<li>
+<p>If the virtual machines were already running, ensure they were restarted after updating the <code>VirtualMachine</code> YAML with the label.</p>
+</li>
+<li>
+<p>Verify that the label was applied to the correct YAML section in the <code>VirtualMachine</code> definition. It should be under <code>spec.template.metadata</code>.</p>
+</li>
+<li>
+<p>In the left navigation menu, browse to <strong>Workloads &#8594; Pods</strong>, select <code>virt-launcher</code> Pod with the virtual machine&#8217;s name in it. On the ensuing details page, verify the <code>env=webapp</code> label is present in the list.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/202_label_troubleshooting_1.png" alt="202 label troubleshooting 1">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_route"><a class="anchor" href="#_create_the_route"></a>Create the Route</h3>
+<div class="paragraph">
+<p>Now the Windows IIS servers are accessible from within the OpenShift cluster. Other virtual machines are able to access them using the DNS name <code>webapp.vmexamples</code>, which is determined by the name of the Service + the namespace. However, since these web servers are the front end to an application we want to be externally accessible, we will expose it using a <strong>Route</strong>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Networking</strong> &#8594; <strong>Routes</strong> in the left navigation menu, verify that you&#8217;re using the correct project name. Press <strong>Create Route</strong>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/205_route_navigation.png" alt="205 route navigation">
+</div>
+</div>
+</li>
+<li>
+<p>Fill the form using the information below, press <strong>Create</strong> when done.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Name</strong>: <code>route-webapp</code></p>
+</li>
+<li>
+<p><strong>Service</strong>: <code>webapp</code></p>
+</li>
+<li>
+<p><strong>Target port</strong>: <code>80 &#8594; 80 (TCP)</code></p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>OpenShift can automatically (re)encrypt traffic entering the cluster via a Route, however, we don&#8217;t need to use TLS for this application. The <strong>Secure Route</strong> option should not be checked.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/63_VMWARE_VMs_Create_Route.png" alt="63 VMWARE VMs Create Route">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Navigate to the address shown in <strong>Location</strong> field</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/203_route_access.png" alt="203 route access">
+</div>
+</div>
+</li>
+<li>
+<p>When the page loads, you will see an error. This is because the Windows web servers are not able to resolve the internal name <code>database</code> to connect to the database VM.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/64_VMWARE_VMs_URL.png" alt="64 VMWARE VMs URL">
+</div>
+</div>
+<div class="paragraph">
+<p>To fix the connectivity issue, we need to create another Service for the database VM so that it is discoverable by other VMs connected to the SDN. Note that because this database does <strong>not</strong> need to be accessible from outside of the OpenShift environment, you do not need to create a Route for this service.</p>
+</div>
+</li>
+<li>
+<p>Navigate to <strong>Networking</strong> &#8594; <strong>Services</strong> and press <strong>Create service</strong>. Replace the YAML with the following definition:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: vmexamples
+spec:
+  selector:
+    vm.kubevirt.io/name: database
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Ensure the namespace with your virtual machines, <code>vmexamples</code> or <code>vmimported</code> is the one used in the Service YAML.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In this example the service is simply using a selector of the VM&#8217;s name. This is a default label that is automatically added to all VMs. Since there is only one VM that matches the selector, the service will not load balance to the database, instead we&#8217;re using the Service for discovery via the internal DNS name.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Reload the webapp URL and expect to get the proper result</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/MTV/65_VMWARE_VMs_URL.png" alt="65 VMWARE VMs URL">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="10_backup_restore.html" class="query-params-link">Backup and Restore</a></span>
+  <span class="next"><a href="12_metallb.html" class="query-params-link">Optional: Exposing apps using MetalLB</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>  </div>
+</main>
+</div>
+<footer class="footer">
+  <a href="https://demo.redhat.com" target="_blank" class="poweredBy"><p>Powered by</p><div class="labInfo_poweredBy" style="display: block; width: 260px;"><svg class="labInfo_poweredByLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1508.5 178.739"><g fill="#111"><path d="M316.6 63.2v-56H342a21.279 21.279 0 0 1 7.8 1.3 18.111 18.111 0 0 1 5.9 3.5 15.577 15.577 0 0 1 5 11.8 15.051 15.051 0 0 1-3.1 9.5 16.836 16.836 0 0 1-8.4 5.8l12.5 24.1h-9.3l-11.6-23H325v23Zm24.7-48.6H325v18.7h16.3q5.25 0 8.1-2.7a8.7 8.7 0 0 0 2.8-6.6 8.7 8.7 0 0 0-2.8-6.6c-1.8-1.9-4.5-2.8-8.1-2.8ZM364.1 42.8a20.674 20.674 0 0 1 1.6-8.2 20.288 20.288 0 0 1 4.3-6.7 19.92 19.92 0 0 1 6.5-4.5 19.718 19.718 0 0 1 8-1.6 18.463 18.463 0 0 1 7.8 1.6 18.677 18.677 0 0 1 6.2 4.5 20.927 20.927 0 0 1 4.1 6.8 23.2 23.2 0 0 1 1.5 8.4v2.3H372a13.822 13.822 0 0 0 4.6 8.4 13.6 13.6 0 0 0 9.1 3.3 15.553 15.553 0 0 0 5.7-1 12.858 12.858 0 0 0 4.6-2.6l5.1 5a25.983 25.983 0 0 1-7.4 4.1 24.69 24.69 0 0 1-8.4 1.3 21.306 21.306 0 0 1-8.4-1.6 22.763 22.763 0 0 1-6.8-4.4 20.788 20.788 0 0 1-4.5-6.7 23.2 23.2 0 0 1-1.5-8.4Zm20.2-14.2a11.527 11.527 0 0 0-8 3 13.046 13.046 0 0 0-4.2 7.8h24.2a13.091 13.091 0 0 0-4.2-7.8 11.106 11.106 0 0 0-7.8-3ZM443.1 63.2v-3.8a19.448 19.448 0 0 1-5.8 3.3 18.924 18.924 0 0 1-6.7 1.2 19.824 19.824 0 0 1-14.6-6.1 22.268 22.268 0 0 1-4.4-6.7 21.812 21.812 0 0 1 0-16.4A20.534 20.534 0 0 1 416 28a19.335 19.335 0 0 1 6.6-4.5 20.334 20.334 0 0 1 8.2-1.6 20.7 20.7 0 0 1 6.6 1 19.415 19.415 0 0 1 5.7 3V7.2l8-1.8v57.8Zm-25.2-20.4a13.718 13.718 0 0 0 4 10.1 13.45 13.45 0 0 0 9.8 4.1 14.956 14.956 0 0 0 6.4-1.3 15.954 15.954 0 0 0 4.9-3.6V33.6a14.988 14.988 0 0 0-4.9-3.5 15.271 15.271 0 0 0-6.4-1.3 13.423 13.423 0 0 0-9.9 4 13.806 13.806 0 0 0-3.9 10ZM478.1 63.2v-56h8.4v24h29.8v-24h8.4v56h-8.4V38.8h-29.8v24.4ZM547.2 64a16.483 16.483 0 0 1-10.8-3.5 11.037 11.037 0 0 1-4.2-8.9 10.375 10.375 0 0 1 4.7-9.2 20.76 20.76 0 0 1 11.8-3.2 27.841 27.841 0 0 1 5.8.6 27.374 27.374 0 0 1 5.3 1.6v-4.3a8.143 8.143 0 0 0-2.6-6.5 11.452 11.452 0 0 0-7.4-2.2 20.788 20.788 0 0 0-6 .9 34.616 34.616 0 0 0-6.6 2.6l-3-6a54.169 54.169 0 0 1 8.4-3.1 33.18 33.18 0 0 1 8.3-1.1c5.2 0 9.3 1.3 12.2 3.8s4.4 6.1 4.4 10.8v27h-7.8v-3.5a19.441 19.441 0 0 1-5.8 3.2 23.54 23.54 0 0 1-6.7 1Zm-7.3-12.6a5.646 5.646 0 0 0 2.6 4.8 11.193 11.193 0 0 0 6.6 1.8 16.256 16.256 0 0 0 5.9-1 14.449 14.449 0 0 0 4.9-2.9V47a19.778 19.778 0 0 0-4.8-1.8 24.933 24.933 0 0 0-5.7-.6 11.859 11.859 0 0 0-6.8 1.8 5.728 5.728 0 0 0-2.7 5ZM580.6 53.2v-24H572v-6.7h8.6V12.1l7.9-1.9v12.3h12v6.7h-12v22.1a5.94 5.94 0 0 0 1.4 4.4c.9.9 2.5 1.3 4.6 1.3a23.637 23.637 0 0 0 3-.2 10.857 10.857 0 0 0 2.8-.8v6.7a19.28 19.28 0 0 1-3.8.9 27.484 27.484 0 0 1-3.8.3c-3.9 0-7-.9-9-2.8-2-1.7-3.1-4.4-3.1-7.9Z"></path></g><path d="M127 90.2c12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4L149.8 37c-1.7-7.1-3.2-10.3-15.7-16.6-9.7-5-30.8-13.1-37.1-13.1-5.8 0-7.5 7.5-14.4 7.5-6.7 0-11.6-5.6-17.9-5.6-6 0-9.9 4.1-12.9 12.5 0 0-8.4 23.7-9.5 27.2a4.216 4.216 0 0 0-.3 1.9c0 9.2 36.3 39.4 85 39.4Zm32.5-11.4c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3C21.8 58.8 0 61.8 0 81c0 31.5 74.6 70.3 133.7 70.3 45.3 0 56.7-20.5 56.7-36.6-.1-12.8-11-27.3-30.9-35.9Z" fill="#e00"></path><path d="M159.5 78.8c1.7 8.2 1.7 9.1 1.7 10.1 0 14-15.7 21.8-36.4 21.8-46.8 0-87.7-27.4-87.7-45.5a17.535 17.535 0 0 1 1.5-7.3l3.7-9.1a4.877 4.877 0 0 0-.3 2c0 9.2 36.3 39.4 85 39.4 12.5 0 30.6-2.6 30.6-17.5a12.678 12.678 0 0 0-.3-3.4Z"></path><path d="M253.5 158.7a2.22 2.22 0 0 1-2.2-2.2V2.2a2.2 2.2 0 0 1 4.4 0v154.2a2.242 2.242 0 0 1-2.2 2.3Z" fill="#111"></path><text data-name="Demo Platform" transform="translate(1186 149)" fill="#111" font-size="82" font-family="'RedHatDisplay', 'Overpass', overpass, helvetica, arial, sans-serif" font-weight="700"><tspan x="-877.892" y="0">Demo Platform</tspan></text></svg></div></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

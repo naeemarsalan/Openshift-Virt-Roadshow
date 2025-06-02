@@ -5,7 +5,6 @@
 node_modules/
 
 # Ignore build output
-www/
 .cache/
 
 # Ignore IDE and editor files
